@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
+ul { margin: 0; padding: 0;}
+body {
+    margin: 0;
+    h1 {
+        color: #D04F4F;
+        size: 36px;
+        margin-top: 0;
+    }
+    header {
+        text-align: center;
+        font-family: DM Sans;
+        font-style: normal;
+        font-weight: bold;
+        max-width: 1240px;
+        margin: auto;
+        .search {
+            position: relative;
+            input {
+                width: 100%;
+                height: 50px;
+                background-color: #E7E7E7;
+                border: none;
+                border-radius: 5px;
+                padding: 0 20px;
+            }
+            i {
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                font-size: 25px;
+            }
+        }
+        #tags {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 1em 0;
+            li {
+                margin: 1em 0;
+                margin-right: 1em;
+                font-size: 14px;
+                color: white;
+                background-color: #3282F7;
+                border-radius: 5px;
+                height: 40px;
+                display: flex;
+                padding: 0 20px;
+                justify-content: space-between;
+                align-items: center;
+                &:first-of-type {
+                    margin-left: 0;
+                }
+                i {
+                    padding-left: 15px;
+                }
+            }
+        }
+        #filters {
+            display: flex;
+            .filter {
+                position: relative;
+                margin-right: 1em;
+                color: white;
+                i {
+                    position: absolute;
+                    z-index: 100;
+                    display: flex;
+                    justify-content: right;
+                    top: 30%;
+                    right: 20px;
+                }
+                label {
+                    position: absolute;
+                    z-index: 200;
+                    width: calc(100% - 70px);
+                    display: flex;
+                    justify-content: space-between;
+                    top: 25%;
+                    padding-left: 35px;
+                    font-size: 1.1em;
+                }
+                input {
+                    width: 200px;
+                    padding: 20px 35px;
+                    background-color: #68D9A4;
+                    border: none;
+                    border-radius: 5px;
+                    color: white;
+                    &::placeholder {
+                        visibility: hidden;
+                        color: white;
+                        font-weight: bold;
+                        font-size: 1.1em;
+                    }
+                    &:not([value=""]) {
+                        & + label {
+                            visibility: hidden;
+                        }
+                    }
+                    &:focus {
+                        width: 600px;
+                        &::placeholder{
+                            visibility: visible;
+                        }
+                        & + label {
+                            visibility: hidden;
+                            +i +ul {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+                ul {
+                    display: none;
+                    position: absolute;
+                    list-style: none;  
+                    text-align: left;
+                    columns: 3;
+                    background-color: #3282F7;
+                    color: white;
+                    padding: 0 1em;
+                    z-index: 999;
+                    li {
+                        height: 50px;
+                        &:first-child {
+                            padding-top: 20px;
+                        }
+                    }
+                    &:hover {
+                        display: block;
+                    }
+                }
+                &:first-child input {
+                    background-color: #3282F7;
+                }
+                &:last-child input {
+                    background-color: #ED6454;
+                }
+            }
+        }
+    }
+    main {
+        max-width: 1240px;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content:space-between;
+        margin-bottom: 2em;
+        article {
+            position: relative;
+            height: 465px;
+            width: 32%;
+            background-color: #E7E7E7;
+            margin-top: 1em;
+            border-radius: 5px;
+            img {
+                width: 100%;
+                border-radius: 5px 5px 0 0;
+            }
+            h2 {
+                margin: 0;
+                padding-left: 20px;
+                padding-right: 110px;
+            }
+            >span {
+                position: absolute;
+                top: 200px;
+                right: 1em;
+            }
+            .time {
+                font-weight: bold;
+                font-size: 1.2em;
+            }
+            .content {
+                padding: 0 10px;
+                display: flex;
+                div {
+                    width: 50%;
+                    padding: 10px;
+                    &:first-of-type {
+                        font-weight: bold;
+                        p {
+                            margin-top: 0;
+                            margin-bottom: 0.4em;
+                        }
+                    }
+                    &:last-of-type {
+                        p {
+                            margin: 0;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 10;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

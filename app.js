@@ -1,5 +1,11 @@
 import recipes from "./recipes.js"
 
+import Tag from "./model/Tag.js"
+import Recipe from "./model/Recipe.js"
+
+
+var recipesList = recipes.map((recipe) => new Recipe(recipe))
+
 const $inputIngredients = document.getElementById('ingredients')
 const $inputAppareils = document.getElementById('appareil')
 const $inputUstensiles = document.getElementById('ustensiles')
@@ -13,7 +19,7 @@ const $tags = document.getElementById('tags')
 
 const $main = document.getElementById('main')
 
-var tags = ['LAIT DE COCO', 'CRÈME DE COCO']
+var tags = []
 
 // Récupérer la liste des ingrédients
 var ingredientsList = [...new Set(recipes.map((recipe)=> recipe.ingredients.map((ingredientInfo)=> ingredientInfo.ingredient.toUpperCase())).reduce((tabl_1, tabl_2) => tabl_1.concat(tabl_2)))]
@@ -27,128 +33,129 @@ var appareilsList = [...new Set(recipes.map((recipe)=> recipe.appliance.toUpperC
 function displayTags() {
   $tags.innerHTML = ""
   tags.forEach((tag, index)=> {
-    let li = document.createElement("li")
-      li.textContent = tag
-      li.setAttribute("data-tag-index", index)
-    let i = document.createElement("i")
-      i.classList.add('far', 'fa-times-circle')
-      i.addEventListener("click", ()=> {
-        tags.splice(index, 1);
-        displayTags()
-      })
-    li.appendChild(i)
-    $tags.appendChild(li)
+    $tags.appendChild(tag.HTMLtag())
+    $tags.getElementsByTagName('i')[index].addEventListener("click", ()=> {
+      tags.splice(index, 1);
+      displayTags()
+    })
   })
+  displayRecipes(sortRecipes())
 }
 
-function addTag(newtag) {
-  tags.includes(newtag)? null : tags.push(newtag)
+function addTag(name, type) {
+  if(!tags.find(element => element.name === name && element.type === type)) {
+    tags.push(new Tag(name, type))
+    switch (type) {
+      case 'ingredient':
+        $inputIngredients.value = ""
+        $inputIngredients.setAttribute('value', "")
+        break;
+      case 'appliance':
+        $inputAppareils.value = ""
+        break;
+      case 'ustensil':
+        $inputUstensiles.value = ""
+        break;
+      default:
+        break;
+    }
+  }
+
   displayTags()
 }
 
-function displayRecipes(htmlRecipes) {
+function displayRecipes(recipesList) {
   $main.innerHTML = ""
-  htmlRecipes.forEach(htmlRecipe => {
-    $main.innerHTML += `
-    <article>
-      <img src="" alt="">
-      <h2>${htmlRecipe.name}</h2>
-      <span><i class="far fa-clock"></i>${htmlRecipe.time} min</span>
-      <div>
-        ${htmlRecipe.ingredients
-          .map((ing)=> `
-            <p>${ing.ingredient}
-              <span>
-                ${(ing.quantity)?': '+ing.quantity:""} ${(ing.unit)?ing.unit:""}
-              </span>
-            </p>`)
-          .join('')}
-      </div>
-      <div>
-        <p>
-          ${htmlRecipe.description}
-        </p>
-      </div>
-    </article>`
-  });
+  recipesList.forEach((recipe)=> {
+    $main.appendChild(recipe.HTMLrecipe())
+  })
 }
 
-// Barre principale
-$inputRecherche.addEventListener('input', (e)=> {
-  if(e.target.value.length >= 3) {
-    var recette = recipes.filter((rec)=>
-      rec.name.toUpperCase().includes(e.target.value.toUpperCase()) ||
-      rec.description.toUpperCase().includes(e.target.value.toUpperCase()) || 
-      rec.ingredients.filter((ing) => ing.ingredient.toUpperCase().includes(e.target.value.toUpperCase())).length > 0
+
+function sortRecipes() {
+  let filteredRecipe = recipesList
+  tags.forEach(tag => {
+    switch (tag.type) {
+      case 'ingredient':
+        filteredRecipe = filteredRecipe.filter((rec) => rec.ingredients.filter((ing)=> ing.ingredient.toUpperCase() == tag.name).length > 0)
+        break;
+      case 'appliance':
+        filteredRecipe = filteredRecipe.filter((rec) => rec.appliance.toUpperCase().includes(tag.name))
+        break;
+      case 'ustensil':
+        filteredRecipe = filteredRecipe.filter((rec) => rec.ustensils.filter((ust)=> ust.toUpperCase() == tag.name).length > 0)
+        break;
+      default:
+        break;
+    }
+  })
+  
+  if($inputRecherche.value.length >= 3) {
+    let inputValue = $inputRecherche.value.toUpperCase()
+    filteredRecipe = filteredRecipe.filter((rec)=>
+      rec.name.toUpperCase().includes(inputValue) ||
+      rec.description.toUpperCase().includes(inputValue) || 
+      rec.ingredients.filter((ing) => ing.ingredient.toUpperCase().includes(inputValue)).length > 0
     )
-    console.log(recette);
-    displayRecipes(recette)
   }
-})
+  return filteredRecipe
+}
 
 function tagIngredients(e) {
   //récupérer la liste des ingrédients en fonction de la recherche
   var ingredients = ingredientsList.filter((ing)=> ing.includes(e.target.value.toUpperCase()))
-  console.log(ingredients);
+
   $resultIngredients.innerHTML = ""
   ingredients.forEach((ingredient)=> {
     let li = document.createElement("li")
       li.textContent = ingredient
       li.addEventListener("click", (e)=> {
-        addTag(e.target.textContent)
+        addTag(e.target.textContent, 'ingredient')
       })
     $resultIngredients.appendChild(li)
   })
-
-  //récupérer la liste des recettes concernées
-  var recette = recipes.filter((rec)=> rec.ingredients.filter((ing)=> ing.ingredient.toUpperCase().includes(e.target.value.toUpperCase())).length > 0)
-  console.log(recette)
-  displayRecipes(recette)
 }
 
 function tagAppareil(e) {
   //récupérer la liste de l'appareil en fonction de la recherche
   var appareils = appareilsList.filter((appa)=> appa.includes(e.target.value.toUpperCase()))
-  console.log(appareils)
+
   $resultAppareils.innerHTML = ""
   appareils.forEach((appareil)=> {
     let li = document.createElement("li")
       li.textContent = appareil
       li.addEventListener("click", (e)=> {
-        addTag(e.target.textContent)
+        addTag(e.target.textContent, 'appliance')
       })
     $resultAppareils.appendChild(li)
   })
-
-  //récupérer la liste des recettes concernées
-  var recette = recipes.filter((rec)=> rec.appliance.toUpperCase().includes(e.target.value.toUpperCase()))
-  console.log(recette)
-  displayRecipes(recette)
 }
 
 function tagUstensiles(e) {
   //récupérer la liste des ustensiles en fonction de la recherche
   var ustensiles = ustensilesList.filter((ust) => ust.includes(e.target.value.toUpperCase()))
-  console.log(ustensiles)
+
   $resultUstensiles.innerHTML = ""
   ustensiles.forEach((ustensile)=> {
     let li = document.createElement("li")
       li.textContent = ustensile
       li.addEventListener("click", (e)=> {
-        addTag(e.target.textContent)
+        addTag(e.target.textContent, 'ustensil')
       })
     $resultUstensiles.appendChild(li)
   })
-
-  // récupérer la liste des recettes concernées
-  var recette = recipes.filter((rec)=> rec.ustensils.filter((ust)=> ust.toUpperCase().includes(e.target.value.toUpperCase())).length > 0)
-  console.log(recette)
-  displayRecipes(recette)
 }
 
 $inputIngredients.addEventListener('input', tagIngredients)
 $inputAppareils.addEventListener('input', tagAppareil)
 $inputUstensiles.addEventListener('input', tagUstensiles)
 
-displayRecipes(recipes)
+// Barre principale
+$inputRecherche.addEventListener('input', (e)=> {
+  if(e.target.value.length >= 3) {
+    displayRecipes(sortRecipes())
+  }
+})
+
+displayRecipes(sortRecipes())
 displayTags()
