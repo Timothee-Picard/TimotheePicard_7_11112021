@@ -241,7 +241,6 @@ body main {
 
 body main article {
   position: relative;
-  height: 465px;
   width: 32%;
   background-color: #E7E7E7;
   margin-top: 1em;
@@ -256,13 +255,13 @@ body main article img {
 body main article h2 {
   margin: 0;
   padding-left: 20px;
-  padding-right: 110px;
+  padding-right: 100px;
 }
 
 body main article > span {
   position: absolute;
   top: 200px;
-  right: 1em;
+  right: 0.4em;
 }
 
 body main article .time {
@@ -280,6 +279,7 @@ body main article .content {
 body main article .content div {
   width: 50%;
   padding: 10px;
+  font-size: 0.8em;
 }
 
 body main article .content div:first-of-type {
