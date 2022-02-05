@@ -29,7 +29,7 @@ body header .search {
 }
 
 body header .search input {
-  width: 100%;
+  width: 1200px;
   height: 50px;
   background-color: #E7E7E7;
   border: none;
@@ -237,6 +237,8 @@ body main {
       -ms-flex-pack: justify;
           justify-content: space-between;
   margin-bottom: 2em;
+  font-family: DM Sans;
+  font-style: normal;
 }
 
 body main article {
@@ -256,6 +258,7 @@ body main article h2 {
   margin: 0;
   padding-left: 20px;
   padding-right: 100px;
+  margin-bottom: 0.5em;
 }
 
 body main article > span {

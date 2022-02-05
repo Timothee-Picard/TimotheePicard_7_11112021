@@ -18,7 +18,7 @@ body {
         .search {
             position: relative;
             input {
-                width: 100%;
+                width: 1200px;
                 height: 50px;
                 background-color: #E7E7E7;
                 border: none;
@@ -149,6 +149,8 @@ body {
         flex-wrap: wrap;
         justify-content:space-between;
         margin-bottom: 2em;
+        font-family: DM Sans;
+        font-style: normal;
         article {
             position: relative;
             width: 32%;
@@ -163,6 +165,7 @@ body {
                 margin: 0;
                 padding-left: 20px;
                 padding-right: 100px;
+                margin-bottom: 0.5em;
             }
             >span {
                 position: absolute;
