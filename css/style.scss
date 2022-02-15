@@ -108,7 +108,7 @@ body {
                         & + label {
                             visibility: hidden;
                             +i +ul {
-                                display: block;
+                                display: flex;
                             }
                         }
                     }
@@ -118,25 +118,30 @@ body {
                     position: absolute;
                     list-style: none;  
                     text-align: left;
-                    columns: 3;
-                    background-color: #3282F7;
+                    background-color: #68D9A4;
                     color: white;
                     padding: 0 1em;
                     z-index: 999;
+                    width: 95%;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    align-items: center;
+                    padding-bottom: 1em;
                     li {
                         height: 50px;
-                        &:first-child {
-                            padding-top: 20px;
-                        }
+                        width: 26%;
+                        padding: 0 1em;
+                        display: flex;
+                        align-items: center;
                     }
                     &:hover {
-                        display: block;
+                        display: flex;
                     }
                 }
-                &:first-child input {
+                &:first-child input,&:first-child ul {
                     background-color: #3282F7;
                 }
-                &:last-child input {
+                &:last-child input,&:last-child  ul {
                     background-color: #ED6454;
                 }
             }

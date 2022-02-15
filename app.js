@@ -49,12 +49,17 @@ function addTag(name, type) {
       case 'ingredient':
         $inputIngredients.value = ""
         $inputIngredients.setAttribute('value', "")
+        tagIngredients()
         break;
       case 'appliance':
         $inputAppareils.value = ""
+        $inputAppareils.setAttribute('value', "")
+        tagAppareil()
         break;
       case 'ustensil':
         $inputUstensiles.value = ""
+        $inputUstensiles.setAttribute('value', "")
+        tagUstensiles()
         break;
       default:
         break;
@@ -103,7 +108,11 @@ function sortRecipes() {
 
 function tagIngredients(e) {
   //récupérer la liste des ingrédients en fonction de la recherche
-  var ingredients = ingredientsList.filter((ing)=> ing.includes(e.target.value.toUpperCase()))
+  if(e) {
+    var ingredients = ingredientsList.filter((ing)=> ing.includes(e.target.value.toUpperCase()))
+  } else {
+    var ingredients = ingredientsList
+  }
 
   $resultIngredients.innerHTML = ""
   ingredients.forEach((ingredient)=> {
@@ -118,7 +127,11 @@ function tagIngredients(e) {
 
 function tagAppareil(e) {
   //récupérer la liste de l'appareil en fonction de la recherche
-  var appareils = appareilsList.filter((appa)=> appa.includes(e.target.value.toUpperCase()))
+  if(e) {
+    var appareils = appareilsList.filter((appa)=> appa.includes(e.target.value.toUpperCase()))
+  } else {
+    var appareils = appareilsList
+  }
 
   $resultAppareils.innerHTML = ""
   appareils.forEach((appareil)=> {
@@ -133,8 +146,11 @@ function tagAppareil(e) {
 
 function tagUstensiles(e) {
   //récupérer la liste des ustensiles en fonction de la recherche
-  var ustensiles = ustensilesList.filter((ust) => ust.includes(e.target.value.toUpperCase()))
-
+  if(e) {
+    var ustensiles = ustensilesList.filter((ust) => ust.includes(e.target.value.toUpperCase()))
+  } else {
+    var ustensiles = ustensilesList
+  }
   $resultUstensiles.innerHTML = ""
   ustensiles.forEach((ustensile)=> {
     let li = document.createElement("li")
@@ -157,5 +173,7 @@ $inputRecherche.addEventListener('input', (e)=> {
   }
 })
 
-displayRecipes(sortRecipes())
+tagIngredients()
+tagAppareil()
+tagUstensiles()
 displayTags()

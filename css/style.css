@@ -189,7 +189,9 @@ body header #filters .filter input:focus + label {
 }
 
 body header #filters .filter input:focus + label + i + ul {
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 body header #filters .filter ul {
@@ -197,31 +199,45 @@ body header #filters .filter ul {
   position: absolute;
   list-style: none;
   text-align: left;
-  -webkit-columns: 3;
-          columns: 3;
-  background-color: #3282F7;
+  background-color: #68D9A4;
   color: white;
   padding: 0 1em;
   z-index: 999;
+  width: 95%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-bottom: 1em;
 }
 
 body header #filters .filter ul li {
   height: 50px;
-}
-
-body header #filters .filter ul li:first-child {
-  padding-top: 20px;
+  width: 26%;
+  padding: 0 1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 body header #filters .filter ul:hover {
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
-body header #filters .filter:first-child input {
+body header #filters .filter:first-child input, body header #filters .filter:first-child ul {
   background-color: #3282F7;
 }
 
-body header #filters .filter:last-child input {
+body header #filters .filter:last-child input, body header #filters .filter:last-child ul {
   background-color: #ED6454;
 }
 
