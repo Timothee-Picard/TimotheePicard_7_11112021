@@ -3,8 +3,11 @@ import recipes from "./recipes.js"
 import Tag from "./model/Tag.js"
 import Recipe from "./model/Recipe.js"
 
-
-var recipesList = recipes.map((recipe) => new Recipe(recipe))
+var recipesList = []
+for (let index = 0; index < recipes.length; index++) {
+  recipesList.push(new Recipe(recipes[index]))
+  
+}
 
 const $inputIngredients = document.getElementById('ingredients')
 const $inputAppareils = document.getElementById('appareil')
@@ -32,13 +35,13 @@ var appareilsList = [...new Set(recipes.map((recipe)=> recipe.appliance.toUpperC
 
 function displayTags() {
   $tags.innerHTML = ""
-  tags.forEach((tag, index)=> {
-    $tags.appendChild(tag.HTMLtag())
+  for (let index = 0; index < tags.length; index++) {
+    $tags.appendChild(tags[index].HTMLtag())
     $tags.getElementsByTagName('i')[index].addEventListener("click", ()=> {
       tags.splice(index, 1);
       displayTags()
     })
-  })
+  }
   displayRecipes(sortRecipes())
 }
 
@@ -71,37 +74,56 @@ function addTag(name, type) {
 
 function displayRecipes(recipesList) {
   $main.innerHTML = ""
-  recipesList.forEach((recipe)=> {
-    $main.appendChild(recipe.HTMLrecipe())
-  })
+  for (let index = 0; index < recipesList.length; index++) {
+    $main.appendChild(recipesList[index].HTMLrecipe())
+    
+  }
 }
 
 
 function sortRecipes() {
   let filteredRecipe = recipesList
-  tags.forEach(tag => {
-    switch (tag.type) {
+  for (let index = 0; index < tags.length; index++) {
+    switch (tags[index].type) {
       case 'ingredient':
-        filteredRecipe = filteredRecipe.filter((rec) => rec.ingredients.filter((ing)=> ing.ingredient.toUpperCase() == tag.name).length > 0)
+        filteredRecipe = filteredRecipe.filter((rec) => rec.ingredients.filter((ing)=> ing.ingredient.toUpperCase() == tags[index].name).length > 0)
         break;
       case 'appliance':
-        filteredRecipe = filteredRecipe.filter((rec) => rec.appliance.toUpperCase().includes(tag.name))
+        filteredRecipe = []
+        console.log(recipesList[2].appliance.toUpperCase());
+        for (let i = 0; i < recipesList.length; i++) {
+          if(recipesList[i].appliance.toUpperCase().includes(tags[index].name)) {
+            filteredRecipe.push(recipesList[i])
+          }
+        }
         break;
       case 'ustensil':
-        filteredRecipe = filteredRecipe.filter((rec) => rec.ustensils.filter((ust)=> ust.toUpperCase() == tag.name).length > 0)
+        filteredRecipe = filteredRecipe.filter((rec) => rec.ustensils.filter((ust)=> ust.toUpperCase() == tags[index].name).length > 0)
         break;
       default:
         break;
     }
-  })
+    
+  }
   
   if($inputRecherche.value.length >= 3) {
     let inputValue = $inputRecherche.value.toUpperCase()
-    filteredRecipe = filteredRecipe.filter((rec)=>
-      rec.name.toUpperCase().includes(inputValue) ||
-      rec.description.toUpperCase().includes(inputValue) || 
-      rec.ingredients.filter((ing) => ing.ingredient.toUpperCase().includes(inputValue)).length > 0
-    )
+    var saveFilteredRecipe = filteredRecipe
+    filteredRecipe =[]
+    for (let i = 0; i < saveFilteredRecipe.length; i++) {
+      var ingre = []
+      for (let ind = 0; ind < saveFilteredRecipe[i].ingredients.length; ind++) {
+        if(saveFilteredRecipe[i].ingredients[ind].ingredient.toUpperCase().includes(inputValue)) {
+          ingre.push(saveFilteredRecipe[i].ingredients)
+        }
+      }
+      if(
+        saveFilteredRecipe[i].name.toUpperCase().includes(inputValue) ||
+        saveFilteredRecipe[i].description.toUpperCase().includes(inputValue) || 
+        ingre.length > 0) {
+          filteredRecipe.push(saveFilteredRecipe[i])
+        }
+    }
   }
   return filteredRecipe
 }
@@ -109,57 +131,73 @@ function sortRecipes() {
 function tagIngredients(e) {
   //récupérer la liste des ingrédients en fonction de la recherche
   if(e) {
-    var ingredients = ingredientsList.filter((ing)=> ing.includes(e.target.value.toUpperCase()))
+    var ingredients = []
+
+    for (let index = 0; index < ingredientsList.length; index++) {
+      if(ingredientsList[index].includes(e.target.value.toUpperCase()))[
+        ingredients.push(ingredientsList[index])
+      ]
+    }
   } else {
     var ingredients = ingredientsList
   }
 
   $resultIngredients.innerHTML = ""
-  ingredients.forEach((ingredient)=> {
+  for (let index = 0; index < ingredients.length; index++) {
     let li = document.createElement("li")
-      li.textContent = ingredient
+      li.textContent = ingredients[index]
       li.addEventListener("click", (e)=> {
         addTag(e.target.textContent, 'ingredient')
       })
     $resultIngredients.appendChild(li)
-  })
+  }
 }
 
 function tagAppareil(e) {
   //récupérer la liste de l'appareil en fonction de la recherche
   if(e) {
-    var appareils = appareilsList.filter((appa)=> appa.includes(e.target.value.toUpperCase()))
+    var appareils = []
+    for (let index = 0; index < appareilsList.length; index++) {
+      if(appareilsList[index].includes(e.target.value.toUpperCase())) {
+        appareils.push(appareilsList[index])
+      }
+    } 
   } else {
     var appareils = appareilsList
   }
 
   $resultAppareils.innerHTML = ""
-  appareils.forEach((appareil)=> {
+  for (let index = 0; index < appareils.length; index++) {
     let li = document.createElement("li")
-      li.textContent = appareil
+      li.textContent = appareils[index]
       li.addEventListener("click", (e)=> {
         addTag(e.target.textContent, 'appliance')
       })
     $resultAppareils.appendChild(li)
-  })
+  }
 }
 
 function tagUstensiles(e) {
   //récupérer la liste des ustensiles en fonction de la recherche
   if(e) {
-    var ustensiles = ustensilesList.filter((ust) => ust.includes(e.target.value.toUpperCase()))
+    var ustensiles = []
+    for (let index = 0; index < ustensilesList.length; index++) {
+      if(ustensilesList[index].includes(e.target.value.toUpperCase())) {
+        ustensiles.push(ustensilesList[index])
+      }
+    }
   } else {
     var ustensiles = ustensilesList
   }
   $resultUstensiles.innerHTML = ""
-  ustensiles.forEach((ustensile)=> {
+  for (let index = 0; index < ustensiles.length; index++) {
     let li = document.createElement("li")
-      li.textContent = ustensile
+      li.textContent = ustensiles[index]
       li.addEventListener("click", (e)=> {
         addTag(e.target.textContent, 'ustensil')
       })
     $resultUstensiles.appendChild(li)
-  })
+  }
 }
 
 $inputIngredients.addEventListener('input', tagIngredients)
