@@ -22,6 +22,7 @@ body header {
   max-width: 1240px;
   margin: auto;
   margin-top: 5em;
+  margin-bottom: 5em;
 }
 
 body header .search {
@@ -84,6 +85,8 @@ body header #tags li i {
 }
 
 body header #filters {
+  position: absolute;
+  z-index: 999;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -93,6 +96,8 @@ body header #filters .filter {
   position: relative;
   margin-right: 1em;
   color: white;
+  min-width: 300px;
+  text-align: left;
 }
 
 body header #filters .filter i {
@@ -105,7 +110,7 @@ body header #filters .filter i {
       -ms-flex-pack: right;
           justify-content: right;
   top: 30%;
-  right: 20px;
+  right: 30px;
 }
 
 body header #filters .filter label {
@@ -118,14 +123,14 @@ body header #filters .filter label {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  top: 25%;
+  top: 15px;
   padding-left: 35px;
   font-size: 1.1em;
 }
 
 body header #filters .filter input {
-  width: 200px;
-  padding: 20px 35px;
+  width: 100%;
+  padding: 20px 0;
   background-color: #68D9A4;
   border: none;
   border-radius: 5px;
@@ -137,6 +142,7 @@ body header #filters .filter input::-webkit-input-placeholder {
   color: white;
   font-weight: bold;
   font-size: 1.1em;
+  padding-left: 35px;
 }
 
 body header #filters .filter input:-ms-input-placeholder {
@@ -144,6 +150,7 @@ body header #filters .filter input:-ms-input-placeholder {
   color: white;
   font-weight: bold;
   font-size: 1.1em;
+  padding-left: 35px;
 }
 
 body header #filters .filter input::-ms-input-placeholder {
@@ -151,6 +158,7 @@ body header #filters .filter input::-ms-input-placeholder {
   color: white;
   font-weight: bold;
   font-size: 1.1em;
+  padding-left: 35px;
 }
 
 body header #filters .filter input::placeholder {
@@ -158,6 +166,7 @@ body header #filters .filter input::placeholder {
   color: white;
   font-weight: bold;
   font-size: 1.1em;
+  padding-left: 35px;
 }
 
 body header #filters .filter input:not([value=""]) + label {
@@ -196,14 +205,13 @@ body header #filters .filter input:focus + label + i + ul {
 
 body header #filters .filter ul {
   display: none;
-  position: absolute;
   list-style: none;
   text-align: left;
   background-color: #68D9A4;
   color: white;
   padding: 0 1em;
   z-index: 999;
-  width: 95%;
+  width: 568px;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   -webkit-box-pack: center;
