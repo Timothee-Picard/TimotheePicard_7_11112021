@@ -86,11 +86,21 @@ function sortRecipes() {
   for (let index = 0; index < tags.length; index++) {
     switch (tags[index].type) {
       case 'ingredient':
-        filteredRecipe = filteredRecipe.filter((rec) => rec.ingredients.filter((ing)=> ing.ingredient.toUpperCase() == tags[index].name).length > 0)
+        filteredRecipe = []
+        for (let i = 0; i < recipesList.length; i++) {
+          let savefilteredRecipe = []
+          for (let ind = 0; ind < recipesList[i].ingredients.length; ind++) {
+            if(recipesList[i].ingredients[ind].ingredient.toUpperCase() == tags[index].name) {
+              savefilteredRecipe.push(recipesList[i].ingredients[ind])
+            }
+          }
+          if(savefilteredRecipe.length > 0){
+            filteredRecipe.push(recipesList[i])
+          }
+        }
         break;
       case 'appliance':
         filteredRecipe = []
-        console.log(recipesList[2].appliance.toUpperCase());
         for (let i = 0; i < recipesList.length; i++) {
           if(recipesList[i].appliance.toUpperCase().includes(tags[index].name)) {
             filteredRecipe.push(recipesList[i])
@@ -98,7 +108,18 @@ function sortRecipes() {
         }
         break;
       case 'ustensil':
-        filteredRecipe = filteredRecipe.filter((rec) => rec.ustensils.filter((ust)=> ust.toUpperCase() == tags[index].name).length > 0)
+        filteredRecipe = []
+        for (let i = 0; i < recipesList.length; i++) {
+          let savefilteredRecipe = []
+          for (let ind = 0; ind < recipesList[i].ustensils.length; ind++) {
+            if(recipesList[i].ustensils[ind].toUpperCase() == tags[index].name) {
+              savefilteredRecipe.push(recipesList[i].ustensils[ind])
+            }
+          }
+          if(savefilteredRecipe.length > 0){
+            filteredRecipe.push(recipesList[i])
+          }
+        }
         break;
       default:
         break;
@@ -108,7 +129,7 @@ function sortRecipes() {
   
   if($inputRecherche.value.length >= 3) {
     let inputValue = $inputRecherche.value.toUpperCase()
-    var saveFilteredRecipe = filteredRecipe
+    let saveFilteredRecipe = filteredRecipe
     filteredRecipe =[]
     for (let i = 0; i < saveFilteredRecipe.length; i++) {
       var ingre = []
