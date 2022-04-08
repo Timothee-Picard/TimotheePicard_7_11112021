@@ -25,13 +25,27 @@ const $main = document.getElementById('main')
 var tags = []
 
 // Récupérer la liste des ingrédients
-var ingredientsList = [...new Set(recipes.map((recipe)=> recipe.ingredients.map((ingredientInfo)=> ingredientInfo.ingredient.toUpperCase())).reduce((tabl_1, tabl_2) => tabl_1.concat(tabl_2)))]
-
+var ingredientsList = []
+for (let index = 0; index < recipes.length; index++) {
+  for (let i = 0; i < recipes[index].ingredients.length; i++) {
+    ingredientsList.push(recipes[index].ingredients[i].ingredient.toUpperCase())
+  }
+}
+ingredientsList = [...new Set(ingredientsList)]
 // Récupérer la liste des ustensiles
-var ustensilesList = [...new Set(recipes.map((recipe)=> recipe.ustensils.map((ustensilsInfo)=> ustensilsInfo.toUpperCase())).reduce((tabl_1, tabl_2) => tabl_1.concat(tabl_2)))]
-
+var ustensilesList = []
+for (let index = 0; index < recipes.length; index++) {
+  for (let i = 0; i < recipes[index].ustensils.length; i++) {
+    ustensilesList.push(recipes[index].ustensils[i].toUpperCase())
+  }
+}
+ustensilesList = [...new Set(ustensilesList)]
 // Récupérer la liste des appareils
-var appareilsList = [...new Set(recipes.map((recipe)=> recipe.appliance.toUpperCase()))]
+var appareilsList = []
+for (let index = 0; index < recipes.length; index++) {
+  appareilsList.push(recipes[index].appliance.toUpperCase())
+}
+appareilsList = [...new Set(appareilsList)]
 
 function displayTags() {
   $tags.innerHTML = ""
